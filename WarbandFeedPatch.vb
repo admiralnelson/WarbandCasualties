@@ -88,20 +88,21 @@ Public Class WarbandFeedPatch
     Public Class GenerateCombatLog
         Public Shared Function Prefix(logData As CombatLogData) As Boolean
             If logData.TotalDamage <= 0 Then Return False
+            If logData.IsVictimAgentMount Then Return False
             'this log is generated from bot POV, that why we check against human
             If IsAttackingHuman(logData) Then
-                Dim str = DamageReceivedStr.SetTextVariable("amount", logData.TotalDamage - logData.AbsorbedDamage)
+                Dim str = DamageReceivedStr.SetTextVariable("amount", logData.TotalDamage)
                 Print(str.ToString(), ColourDamage)
                 Return False
             End If
             If logData.IsAttackerAgentMount Then
                 If logData.TotalDamage > 0 Then
-                    Dim str = ChargedMountStr.SetTextVariable("amount", logData.TotalDamage - logData.AbsorbedDamage)
+                    Dim str = ChargedMountStr.SetTextVariable("amount", logData.TotalDamage)
                     Print(str.ToString(), Color.White)
                 End If
             Else
                 If logData.TotalDamage > 0 Then
-                    Dim damstr = DamageDeliveredStr.SetTextVariable("amount", logData.TotalDamage - logData.AbsorbedDamage)
+                    Dim damstr = DamageDeliveredStr.SetTextVariable("amount", logData.TotalDamage)
                     Print(damstr.ToString(), Color.White)
                 End If
                 If logData.HitSpeed > 0.0001 AndAlso Not logData.IsRangedAttack Then

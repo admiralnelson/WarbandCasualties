@@ -13,4 +13,10 @@ Public Module Util
         End If
         Return combatlog.IsVictimAgentMine
     End Function
+
+    Public Function Clamp(a As Integer, min As Integer, max As Integer) As Integer
+        If a <= min Then Return min
+        If a >= max Then Return max
+        Return a
+    End Function
 End Module
